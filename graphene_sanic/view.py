@@ -33,7 +33,6 @@ class View(ObjectType):
 
     async def post(self, request, ws=None):
         query = request.body.replace(b'\n', b'').decode('utf8')
-
         return json(self.schema.execute(query))
 
     def _dispatch_request(self, request, *args, **kwargs):
@@ -41,9 +40,7 @@ class View(ObjectType):
         return handler(request, *args, **kwargs)
 
     def __call__(self, *args, **kwargs):
-        """Return view function for use with the routing system, that
-        dispatches request to appropriate handler method.
-        """
+
         def view(*args, **kwargs):
             return self._dispatch_request(*args, **kwargs)
 

@@ -15,13 +15,13 @@ DEPRECATED_METHODS = (
 )
 
 
-BaseBluprint = copy.deepcopy(SanicBlueprint)
+BaseBlueprint = copy.deepcopy(SanicBlueprint)
 
 for method in DEPRECATED_METHODS:
-    delattr(BaseBluprint, method)
+    delattr(BaseBlueprint, method)
 
 
-class Blueprint(BaseBluprint):
+class Blueprint(BaseBlueprint):
     def register(self, app, options):
         """Register the blueprint to the sanic app."""
 
