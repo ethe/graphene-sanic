@@ -25,15 +25,15 @@ class View(ObjectType):
             except KeyError:
                 raise ServerError(
                     "need parameter 'query' for get method", status_code=403)
-            return json(self.schema.execute(query[0]))
+            return json(self.schema.execute(query[0], context_value=request))
         else:
             while True:
                 data = await ws.recv()
-                await ws.send(dumps(self.schema.execute(data)))
+                await ws.send(dumps(self.schema.execute(data, context_value=request)))
 
     async def post(self, request, ws=None):
         query = request.body.replace(b'\n', b'').decode('utf8')
-        return json(self.schema.execute(query))
+        return json(self.schema.execute(query, context_value=request))
 
     def _dispatch_request(self, request, *args, **kwargs):
         handler = getattr(self, request.method.lower(), None)
